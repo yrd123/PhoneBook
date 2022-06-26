@@ -9,13 +9,11 @@ class Entry extends Component {
             entries : [],
             show : false
         };
-
-        this.entry = {};
         this.entryToBeUpdated = {};
     }
 
     componentDidMount(){
-        fetch("http://localhost:3000/entries")
+        fetch("http://localhost:4000/entries")
         .then(response => response.json())
         .then((entries) => this.setState({entries:entries}));
     }
@@ -24,35 +22,17 @@ class Entry extends Component {
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
         let phoneNumber = document.getElementById("phoneNumber").value;
-        this.entry["firstName"] = firstName;
-        this.entry["lastName"] = lastName;
-        this.entry["phoneNumber"] = phoneNumber;
+        let entry = {
+            firstName, lastName, phoneNumber
+        };
         
-        fetch("http://localhost:3000/entries/create", {
+        fetch("http://localhost:4000/entries/create", {
             method:"POST",
-            body:JSON.stringify(this.entry),
+            body:JSON.stringify({entry}),
             headers:{"Content-Type" : "application/json"}
         })
         .then(response => response.json)
         .then((data) => console.log(data));
-    }
-
-    deleteEntry(id, index){
-        fetch("http://localhost:3000/entries/delete/" + id,{
-            method:"DELETE"
-        })
-        .then(response => response.json())
-        .then((data)=>{
-            console.log(data);
-            let tempEntries = this.state.entries;
-            this.state.entries.splice(index, 1);
-            this.setState({entries : tempEntries})
-        });
-    }
-
-    handleModal(index){
-        this.setState({show:true});
-        this.entryToBeUpdated = this.state.entries[index];
     }
 
     updateEntry(){
@@ -64,13 +44,31 @@ class Entry extends Component {
         this.entryToBeUpdated["lastName"] = lastName;
         this.entryToBeUpdated["phoneNumber"] = phoneNumber;
         
-        fetch("http://localhost:3000/entries/update/" + id, {
+        fetch("http://localhost:4000/entries/update/" + id, {
             method:"PUT",
-            body:JSON.stringify(this.entryToBeUpdated),
+            body:JSON.stringify({entry:this.entryToBeUpdated}),
             headers:{"Content-Type" : "application/json"}
         })
         .then(response => response.json)
         .then((data) => console.log(data));
+    }
+
+    deleteEntry(id, index){
+        fetch("http://localhost:4000/entries/delete/" + id,{
+            method:"DELETE"
+        })
+        .then(response => response.json())
+        .then((data)=>{
+            console.log(data);
+            let tempEntries = this.state.entries;
+            this.state.entries.splice(index, 1);
+            this.setState({entries : tempEntries})
+        });
+    }
+    
+    handleModal(index){
+        this.setState({show:true});
+        this.entryToBeUpdated = this.state.entries[index];
     }
 
     render() { 
