@@ -10,7 +10,7 @@ app.use(cors());
 
 
 app.get('',(request,response)=>{
-    response.send("Welcome")
+    response.send("Welcome");
 });
 
 
@@ -23,7 +23,7 @@ app.post("/entries/create",(request,response)=>{
     let entry = request.body.entry;
     let entryObj = new Entry({...entry});
     entryObj.save();
-    response.send("Entry Created");
+    response.send({message:"Entry Created"});
 });
 
 app.delete("/entries/delete/:id",async (req, res)=>{
@@ -41,5 +41,5 @@ app.put("/entries/update/:id",async (req, res)=>{
 });
 
 app.listen(4000, ()=>{
-    console.log("Server is running");
+    console.log("Server is running at port 4000");
 }); 
