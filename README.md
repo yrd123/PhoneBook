@@ -94,3 +94,9 @@ http://localhost:4000/entries/delete/62b8b846e346ca5b316831c6
   "message": "Entry deleted"
 }
 
+
+#### Screenshot of the implementation
+![image](https://user-images.githubusercontent.com/55012588/175915089-f1cee7a8-4500-491f-85b5-31bc01947989.png)
+
+
+
